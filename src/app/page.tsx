@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 
 function Icon({ name, className = "" }: { name: string; className?: string }) {
   const paths: Record<string, React.ReactNode> = {
@@ -34,6 +38,22 @@ const gallery = [
 ];
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const nodes = document.querySelectorAll(".reveal-on-scroll");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -35px 0px" });
+    nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <main>
       <div className="topbar" aria-label="Contact Jobella Events">
@@ -63,7 +83,8 @@ export default function Home() {
             <span className="brand-mark">J<span>B</span></span>
             <span className="brand-name">JOBELLA<small>EVENTS &amp; MORE</small></span>
           </a>
-          <nav className="main-nav" aria-label="Main navigation">
+          <button className="mobile-menu-toggle" type="button" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}><span></span><span></span><span></span></button>
+          <nav className={`main-nav ${menuOpen ? "is-open" : ""}`} aria-label="Main navigation" onClick={() => setMenuOpen(false)}>
             <a href="#home">Home</a><a href="#about">About us</a><a href="#services">Services</a><a href="#portfolio">Portfolio</a><a href="#contact">Contact</a>
           </nav>
           <a className="button button-small" href="#contact"><Icon name="calendar" />Plan your event</a>
@@ -82,7 +103,7 @@ export default function Home() {
         <div className="hero-caption"><span>01 / 03</span><span>Creating moments worth remembering</span></div>
       </section>
 
-      <section className="intro section-pad" id="about">
+      <section className="intro section-pad reveal-on-scroll" id="about">
         <div className="container intro-grid">
           <div className="intro-image-wrap">
             <img className="intro-image" src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1100&q=85" alt="Elegant event table setting with floral details" />
@@ -98,7 +119,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="services section-pad" id="services">
+      <section className="services section-pad reveal-on-scroll" id="services">
         <div className="container">
           <div className="section-heading">
             <div><p className="eyebrow">WHAT WE DO</p><h2>Thoughtful planning.<br /><em>Beautiful execution.</em></h2></div>
@@ -111,7 +132,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="portfolio section-pad" id="portfolio">
+      <section className="portfolio section-pad reveal-on-scroll" id="portfolio">
         <div className="container">
           <div className="section-heading portfolio-heading">
             <div><p className="eyebrow">A LOOK AT THE POSSIBILITIES</p><h2>Made for moments<br /><em>that matter.</em></h2></div>
@@ -124,14 +145,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="transformation section-pad">
+      <section className="transformation section-pad reveal-on-scroll">
         <div className="container transformation-grid">
           <div><p className="eyebrow">THE TRANSFORMATION</p><h2>From an empty space<br /><em>to a moment that stays.</em></h2><p className="transformation-copy">A thoughtful event comes together through creative direction, careful planning and details that bring a space to life.</p><a className="text-link" href="#contact">Let's plan your event <Icon name="arrow" /></a></div>
           <div className="transformation-visual"><img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1200&q=85" alt="Elegant celebration venue styled for an event" loading="lazy" /><span>Thoughtfully styled. Beautifully remembered.</span></div>
         </div>
       </section>
 
-      <section className="approach section-pad">
+      <section className="approach section-pad reveal-on-scroll">
         <div className="container approach-grid">
           <div><p className="eyebrow eyebrow-light">THE JOBELLA APPROACH</p><h2>Good events don't<br />happen by chance.</h2><p className="approach-copy">They come together through clear communication, creative thinking and careful coordination. We make the process feel as considered as the celebration.</p><a className="button button-gold" href="#contact">Let's plan together <Icon name="calendar" /></a></div>
           <div className="process-list">
@@ -143,15 +164,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="testimonials section-pad">
+      <section className="testimonials section-pad reveal-on-scroll">
         <div className="container testimonial-inner"><p className="eyebrow">THE JOBELLA PROMISE</p><h2>Every detail deserves<br /><em>thought and care.</em></h2><div className="testimonial-card"><span className="testimonial-quote">“</span><p>We believe the experience should feel as special as the occasion itself — from the first conversation to the final detail.</p><span className="testimonial-caption">THE JOBELLA APPROACH</span></div></div>
       </section>
 
-      <section className="values section-pad">
+      <section className="values section-pad reveal-on-scroll">
         <div className="container values-inner"><p className="eyebrow">WHAT GUIDES US</p><h2>Creativity with purpose.<br /><em>Excellence in every detail.</em></h2><div className="value-list"><span>Transparency</span><span>Creativity</span><span>Innovation</span><span>Professionalism</span><span>Integrity &amp; reliability</span></div></div>
       </section>
 
-      <section className="contact section-pad" id="contact">
+      <section className="contact section-pad reveal-on-scroll" id="contact">
         <div className="container contact-grid">
           <div><p className="eyebrow eyebrow-light">LET'S MAKE IT HAPPEN</p><h2>Tell us what<br /><em>you're celebrating.</em></h2><p>Share a little about your event and let's start shaping an experience that feels just right.</p><a className="button button-gold" href="https://wa.me/2348053090312?text=Hello%20Jobella%20Events%2C%20I%27d%20like%20to%20make%20an%20event%20enquiry."><Icon name="message" />Enquire on WhatsApp</a></div>
           <div className="contact-details"><div><span><Icon name="phone" />CALL / WHATSAPP</span><a href="tel:+2348053090312">+234 805 309 0312</a></div><div><span><Icon name="mail" />EMAIL</span><a href="mailto:jobellaevents.ng@gmail.com">jobellaevents.ng@gmail.com</a></div><div><span><Icon name="pin" />LOCATION</span><p>Lagos, Nigeria</p></div><div><span><Icon name="instagram" />FOLLOW OUR WORK</span><a href="https://www.instagram.com/jobellaevents/" target="_blank" rel="noreferrer">Instagram <Icon name="instagram" /></a></div></div>
