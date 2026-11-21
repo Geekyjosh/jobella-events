@@ -16,10 +16,24 @@ const gallery = [
 export default function Home() {
   return (
     <main>
-      <div className="topbar">
-        <div className="container topbar-inner">
-          <span>Lagos, Nigeria</span>
-          <div><a href="tel:+2348053090312">0805 309 0312</a><span className="topbar-divider">|</span><a href="mailto:jobellaevents.ng@gmail.com">jobellaevents.ng@gmail.com</a></div>
+      <div className="topbar" aria-label="Contact Jobella Events">
+        <div className="topbar-track">
+          <div className="topbar-group">
+            <a href="tel:+2348053090312">Call or WhatsApp: 0805 309 0312</a>
+            <span aria-hidden="true">•</span>
+            <a href="mailto:jobellaevents.ng@gmail.com">jobellaevents.ng@gmail.com</a>
+            <span aria-hidden="true">•</span>
+            <span>Lagos, Nigeria</span>
+            <span aria-hidden="true">•</span>
+          </div>
+          <div className="topbar-group" aria-hidden="true">
+            <a href="tel:+2348053090312" tabIndex={-1}>Call or WhatsApp: 0805 309 0312</a>
+            <span>•</span>
+            <a href="mailto:jobellaevents.ng@gmail.com" tabIndex={-1}>jobellaevents.ng@gmail.com</a>
+            <span>•</span>
+            <span>Lagos, Nigeria</span>
+            <span>•</span>
+          </div>
         </div>
       </div>
 
