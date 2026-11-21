@@ -9,10 +9,10 @@ img{display:block;max-width:100%}
 .container{width:min(1160px,calc(100% - 48px));margin-inline:auto}
 .topbar{height:44px;overflow:hidden;background:var(--brown-deep);color:#f5ead7;display:flex;align-items:center}
 .topbar-track{display:flex;width:max-content;min-width:max-content;animation:jobella-contact-marquee 34s linear infinite}
-.topbar-group{display:flex;align-items:center;gap:30px;padding-right:30px;white-space:nowrap;font-size:16px;font-weight:600;letter-spacing:.15px}
-.topbar a{color:inherit;transition:color .2s}.topbar-group a,.topbar-group>span{display:inline-flex;align-items:center;gap:8px}.topbar-group svg{width:16px;height:16px;flex:none}.topbar a:hover{color:var(--gold-light)}
+.topbar-group{display:flex;align-items:stretch;gap:30px;height:44px;padding-right:30px;white-space:nowrap;font-size:16px;font-weight:600;letter-spacing:.15px}
+.topbar a{color:inherit;transition:color .2s}.topbar-group a,.topbar-group>span:not(.topbar-separator){display:inline-flex;align-items:center;gap:8px;align-self:center}.topbar-group svg{width:16px;height:16px;flex:none}.topbar-separator{display:block;width:1px;min-width:1px;height:100%;align-self:stretch;background:rgba(245,234,215,.55);margin:0 -15px}.topbar a:hover{color:var(--gold-light)}
 @keyframes jobella-contact-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media(max-width:700px){.topbar{height:46px}.topbar-group{gap:22px;padding-right:22px;font-size:15px}}
+@media(max-width:700px){.topbar{height:46px}.topbar-group{height:46px;gap:22px;padding-right:22px;font-size:15px}.topbar-separator{margin:0 -11px}}
 @media(prefers-reduced-motion:reduce){.topbar-track{animation:none}}
 .site-header{height:82px;background:#fff;position:relative;z-index:5;border-bottom:1px solid #eee8df}
 .nav-wrap{height:100%;display:flex;align-items:center;justify-content:space-between;gap:24px}

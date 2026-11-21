@@ -40,18 +40,18 @@ export default function Home() {
         <div className="topbar-track">
           <div className="topbar-group">
             <a href="tel:+2348053090312"><Icon name="phone" />Call or WhatsApp: 0805 309 0312</a>
-            <span aria-hidden="true">•</span>
+            <span className="topbar-separator" aria-hidden="true" />
             <a href="mailto:jobellaevents.ng@gmail.com"><Icon name="mail" />jobellaevents.ng@gmail.com</a>
-            <span aria-hidden="true">•</span>
+            <span className="topbar-separator" aria-hidden="true" />
             <span><Icon name="pin" />Lagos, Nigeria</span>
-            <span aria-hidden="true">•</span>
+            <span className="topbar-separator" aria-hidden="true" />
           </div>
           <div className="topbar-group" aria-hidden="true">
-            <a href="tel:+2348053090312" tabIndex={-1}>Call or WhatsApp: 0805 309 0312</a>
+            <a href="tel:+2348053090312" tabIndex={-1}><Icon name="phone" />Call or WhatsApp: 0805 309 0312</a>
+            <span className="topbar-separator" />
+            <a href="mailto:jobellaevents.ng@gmail.com" tabIndex={-1}><Icon name="mail" />jobellaevents.ng@gmail.com</a>
             <span>•</span>
-            <a href="mailto:jobellaevents.ng@gmail.com" tabIndex={-1}>jobellaevents.ng@gmail.com</a>
-            <span>•</span>
-            <span>Lagos, Nigeria</span>
+            <span><Icon name="pin" />Lagos, Nigeria</span>
             <span>•</span>
           </div>
         </div>
