@@ -113,7 +113,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="site-footer"><div className="container footer-inner"><a className="brand brand-footer" href="#"><span className="brand-mark">J<span>B</span></span><span className="brand-name">JOBELLA<small>EVENTS &amp; MORE</small></span></a><p>Thoughtfully planned. Beautifully remembered.</p><span>© {new Date().getFullYear()} Jobella Events &amp; More Ltd.</span></div></footer>
+      <footer className="site-footer"><div className="container footer-inner"><a className="brand brand-footer" href="#"><span className="brand-mark">J<span>B</span></span><span className="brand-name">JOBELLA<small>EVENTS &amp; MORE</small></span></a><p>Thoughtfully planned. Beautifully remembered.</p><span>© Jobella Events &amp; More Ltd. All rights reserved.</span></div></footer>
     </main>
   );
 }
