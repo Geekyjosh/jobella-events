@@ -124,6 +124,13 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="transformation section-pad">
+        <div className="container transformation-grid">
+          <div><p className="eyebrow">THE TRANSFORMATION</p><h2>From an empty space<br /><em>to a moment that stays.</em></h2><p className="transformation-copy">A thoughtful event comes together through creative direction, careful planning and details that bring a space to life.</p><a className="text-link" href="#contact">Let's plan your event <Icon name="arrow" /></a></div>
+          <div className="transformation-visual"><img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1200&q=85" alt="Elegant celebration venue styled for an event" loading="lazy" /><span>Thoughtfully styled. Beautifully remembered.</span></div>
+        </div>
+      </section>
+
       <section className="approach section-pad">
         <div className="container approach-grid">
           <div><p className="eyebrow eyebrow-light">THE JOBELLA APPROACH</p><h2>Good events don't<br />happen by chance.</h2><p className="approach-copy">They come together through clear communication, creative thinking and careful coordination. We make the process feel as considered as the celebration.</p><a className="button button-gold" href="#contact">Let's plan together <Icon name="calendar" /></a></div>
@@ -134,6 +141,10 @@ export default function Home() {
             <div><span>04</span><section><h3>You celebrate</h3><p>Enjoy the moment while we take care of the details.</p></section></div>
           </div>
         </div>
+      </section>
+
+      <section className="testimonials section-pad">
+        <div className="container testimonial-inner"><p className="eyebrow">THE JOBELLA PROMISE</p><h2>Every detail deserves<br /><em>thought and care.</em></h2><div className="testimonial-card"><span className="testimonial-quote">“</span><p>We believe the experience should feel as special as the occasion itself — from the first conversation to the final detail.</p><span className="testimonial-caption">THE JOBELLA APPROACH</span></div></div>
       </section>
 
       <section className="values section-pad">
@@ -147,6 +158,7 @@ export default function Home() {
         </div>
       </section>
 
+      <a className="floating-whatsapp" href="https://wa.me/2348053090312?text=Hello%20Jobella%20Events%2C%20I%27d%20like%20to%20make%20an%20event%20enquiry." target="_blank" rel="noreferrer" aria-label="Chat with Jobella on WhatsApp"><Icon name="message" /></a>
       <footer className="site-footer"><div className="container footer-inner"><a className="brand brand-footer" href="#"><span className="brand-mark">J<span>B</span></span><span className="brand-name">JOBELLA<small>EVENTS &amp; MORE</small></span></a><p>Thoughtfully planned. Beautifully remembered.</p><span>© Jobella Events &amp; More Ltd. All rights reserved.</span></div></footer>
     </main>
   );
