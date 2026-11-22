@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 
 function Icon({ name, className = "" }: { name: string; className?: string }) {
@@ -39,11 +39,19 @@ const gallery = [
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeIntroSlide, setActiveIntroSlide] = useState(0);
+  const introTouchStart = useRef<number | null>(null);
+  const introImages = [1, 2, 3, 4, 5].map((number) => `/images/events/event-image${number}.webp`);
   const [activeFilter, setActiveFilter] = useState("All");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [faqOpen, setFaqOpen] = useState<number | null>(0);
   const filteredGallery = activeFilter === "All" ? gallery : gallery.filter((item) => item.category === activeFilter);
   const galleryFilters = ["All", ...Array.from(new Set(gallery.map((item) => item.category)))];
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setActiveIntroSlide((current) => (current + 1) % introImages.length), 2000);
+    return () => window.clearInterval(timer);
+  }, [introImages.length]);
 
   useEffect(() => {
     if (lightboxIndex === null) return;
@@ -135,9 +143,13 @@ export default function Home() {
 
       <section className="intro section-pad reveal-on-scroll" id="about">
         <div className="container intro-grid">
-          <div className="intro-image-wrap">
-            <img className="intro-image" src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1100&q=85" alt="Elegant event table setting with floral details" />
-            <div className="image-note"><strong>Every detail matters.</strong><span>From the first idea to the final flourish.</span></div>
+          <div className="intro-image-wrap intro-carousel" aria-label="Jobella event photographs" onTouchStart={(event) => { introTouchStart.current = event.changedTouches[0].clientX; }} onTouchEnd={(event) => { if (introTouchStart.current === null) return; const distance = event.changedTouches[0].clientX - introTouchStart.current; if (Math.abs(distance) > 40) setActiveIntroSlide((current) => (current + (distance < 0 ? 1 : introImages.length - 1)) % introImages.length); introTouchStart.current = null; }}>
+            {introImages.map((image, index) => <img key={image} className={index === activeIntroSlide ? "intro-image intro-slide is-active" : "intro-image intro-slide"} src={image} alt={`Jobella event photograph ${index + 1}`} loading={index === 0 ? "eager" : "lazy"} decoding="async" aria-hidden={index !== activeIntroSlide} />)}
+            <div className="intro-carousel-controls" aria-label="Choose event photograph">
+              <button type="button" aria-label="Previous photograph" onClick={() => setActiveIntroSlide((current) => (current + introImages.length - 1) % introImages.length)}>‹</button>
+              <div>{introImages.map((image, index) => <button key={image} type="button" className={index === activeIntroSlide ? "intro-dot active" : "intro-dot"} aria-label={`Show photograph ${index + 1}`} aria-pressed={index === activeIntroSlide} onClick={() => setActiveIntroSlide(index)} />)}</div>
+              <button type="button" aria-label="Next photograph" onClick={() => setActiveIntroSlide((current) => (current + 1) % introImages.length)}>›</button>
+            </div>
           </div>
           <div className="intro-copy">
             <p className="eyebrow">WELCOME TO JOBELLA</p>
