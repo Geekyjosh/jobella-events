@@ -39,6 +39,36 @@ const gallery = [
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [faqOpen, setFaqOpen] = useState<number | null>(0);
+  const filteredGallery = activeFilter === "All" ? gallery : gallery.filter((item) => item.category === activeFilter);
+  const galleryFilters = ["All", ...Array.from(new Set(gallery.map((item) => item.category)))];
+
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setLightboxIndex(null); };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [lightboxIndex]);
+
+  const submitEnquiry = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const details = [
+      "Hello Jobella Events, I would like to make an event enquiry.",
+      "Name: " + form.get("name"),
+      "Email: " + form.get("email"),
+      "Phone: " + form.get("phone"),
+      "Event type: " + form.get("eventType"),
+      "Event date: " + (form.get("eventDate") || "Not decided"),
+      "Venue/location: " + (form.get("venue") || "Not decided"),
+      "Estimated guests: " + (form.get("guests") || "Not sure"),
+      "Budget: " + (form.get("budget") || "Not specified"),
+      "Details: " + (form.get("details") || "Not provided")
+    ].join("\n");
+    window.open("https://wa.me/2348053090312?text=" + encodeURIComponent(details), "_blank", "noopener,noreferrer");
+  };
 
   useEffect(() => {
     const nodes = document.querySelectorAll(".reveal-on-scroll");
@@ -138,12 +168,17 @@ export default function Home() {
             <div><p className="eyebrow">A LOOK AT THE POSSIBILITIES</p><h2>Made for moments<br /><em>that matter.</em></h2></div>
             <p>Every celebration has its own character. Our approach is to make the atmosphere as special as the occasion itself.</p>
           </div>
+          <div className="gallery-filters" aria-label="Filter event gallery">
+            {galleryFilters.map((filter) => <button type="button" key={filter} className={activeFilter === filter ? "gallery-filter active" : "gallery-filter"} onClick={() => setActiveFilter(filter)} aria-pressed={activeFilter === filter}>{filter}</button>)}
+          </div>
           <div className="gallery-grid">
-            {gallery.map((item, index) => <article className={index === 0 ? "gallery-item gallery-feature" : "gallery-item"} key={item.title}><img src={item.image} alt={item.title} /><div className="gallery-overlay"><span>{item.category}</span><h3>{item.title}</h3></div></article>)}
+            {filteredGallery.map((item, index) => <button type="button" className={index === 0 ? "gallery-item gallery-feature" : "gallery-item"} key={item.title} onClick={() => setLightboxIndex(gallery.findIndex((photo) => photo.title === item.title))} aria-label={"View " + item.title}><img src={item.image} alt={item.title} loading="lazy" decoding="async" /><span className="gallery-overlay"><span>{item.category}</span><strong>{item.title}</strong></span></button>)}
           </div>
           <p className="portfolio-note">Photography shown is illustrative. Jobella's event portfolio can be added here as project photographs are supplied.</p>
         </div>
       </section>
+
+      {lightboxIndex !== null && <div className="lightbox" role="dialog" aria-modal="true" aria-label="Event photograph preview" onClick={() => setLightboxIndex(null)}><button type="button" className="lightbox-close" onClick={() => setLightboxIndex(null)} aria-label="Close image preview">×</button><button type="button" className="lightbox-nav previous" aria-label="Previous image" onClick={(event) => { event.stopPropagation(); setLightboxIndex((lightboxIndex + gallery.length - 1) % gallery.length); }}>‹</button><img src={gallery[lightboxIndex].image} alt={gallery[lightboxIndex].title} onClick={(event) => event.stopPropagation()} /><button type="button" className="lightbox-nav next" aria-label="Next image" onClick={(event) => { event.stopPropagation(); setLightboxIndex((lightboxIndex + 1) % gallery.length); }}>›</button><p>{gallery[lightboxIndex].title}</p></div>}
 
       <section className="transformation section-pad reveal-on-scroll">
         <div className="container transformation-grid">
@@ -164,18 +199,20 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="testimonials section-pad reveal-on-scroll">
-        <div className="container testimonial-inner"><p className="eyebrow">THE JOBELLA PROMISE</p><h2>Every detail deserves<br /><em>thought and care.</em></h2><div className="testimonial-card"><span className="testimonial-quote">“</span><p>We believe the experience should feel as special as the occasion itself — from the first conversation to the final detail.</p><span className="testimonial-caption">THE JOBELLA APPROACH</span></div></div>
-      </section>
+      <section className="testimonials section-pad reveal-on-scroll"><div className="container testimonial-inner"><p className="eyebrow">CLIENT EXPERIENCES</p><h2>Good experiences<br /><em>deserve to be shared.</em></h2><div className="review-note"><span className="testimonial-quote">“</span><h3>Your story could be featured here.</h3><p>This space is reserved for genuine feedback from Jobella clients. Reviews will only be published with the client's permission.</p><a className="text-link" href="https://wa.me/2348053090312?text=Hello%20Jobella%20Events%2C%20I%20would%20like%20to%20share%20feedback.">Share your experience <Icon name="arrow" /></a></div></div></section>
 
       <section className="values section-pad reveal-on-scroll">
-        <div className="container values-inner"><p className="eyebrow">WHAT GUIDES US</p><h2>Creativity with purpose.<br /><em>Excellence in every detail.</em></h2><div className="value-list"><span>Transparency</span><span>Creativity</span><span>Innovation</span><span>Professionalism</span><span>Integrity &amp; reliability</span></div></div>
+        <div className="container values-inner"><p className="eyebrow">OUR PURPOSE</p><h2>Celebrations with meaning.<br /><em>Experiences made personal.</em></h2><div className="purpose-grid"><article><span>OUR MISSION</span><h3>Bringing your vision to life.</h3><p>To bring clients’ visions to life through creative planning, beautiful designs, seamless coordination and excellent service.</p></article><article><span>OUR VISION</span><h3>Setting a standard for memorable events.</h3><p>To become a leading event planning and decoration brand recognised for creativity, elegance, innovation and excellence.</p></article></div><div className="value-list"><span>Transparency</span><span>Creativity</span><span>Innovation</span><span>Professionalism</span><span>Integrity &amp; reliability</span></div></div>
       </section>
+      <section className="why-us section-pad reveal-on-scroll"><div className="container"><div className="section-heading"><div><p className="eyebrow">WHY JOBELLA</p><h2>Care in every detail.<br /><em>Confidence throughout.</em></h2></div><p>We combine creative thinking with practical coordination, keeping your priorities at the centre of the experience.</p></div><div className="why-grid"><article><strong>01</strong><h3>Personalised creativity</h3><p>Ideas and styling shaped around your occasion, taste and priorities.</p></article><article><strong>02</strong><h3>Clear communication</h3><p>Open conversations and thoughtful planning from the first enquiry.</p></article><article><strong>03</strong><h3>Reliable coordination</h3><p>Careful attention to schedules, details and the people bringing it all together.</p></article><article><strong>04</strong><h3>Professional service</h3><p>A considered approach that respects your event, time and budget.</p></article></div></div></section>
+
+      <section className="faq section-pad reveal-on-scroll"><div className="container faq-grid"><div><p className="eyebrow">GOOD TO KNOW</p><h2>A few things<br /><em>you may be wondering.</em></h2><p>Have another question? Send us a message and we'll be happy to help.</p><a className="text-link" href="https://wa.me/2348053090312?text=Hello%20Jobella%20Events%2C%20I%20have%20a%20question.">Ask us on WhatsApp <Icon name="arrow" /></a></div><div className="faq-list">{[["What types of events do you handle?","We plan and style weddings, engagements, birthdays, anniversaries, bridal showers, corporate events, intimate celebrations and more."],["How do I get started?","Send an enquiry with your event type, preferred date, location and a few details. Our team can then discuss your requirements and next steps."],["How much does event planning or decoration cost?","Pricing depends on the event type, guest count, venue, styling requirements and scope of coordination. Contact us for a tailored discussion and quote."],["How far in advance should I book?","As early as you can, especially for weddings and larger celebrations. If your date is approaching soon, contact us to discuss availability."],["Can you work with my budget and preferred style?","Share your estimated budget, inspiration and priorities so we can discuss a suitable approach."]].map(([question, answer], index) => <article className="faq-item" key={question}><button type="button" onClick={() => setFaqOpen(faqOpen === index ? null : index)} aria-expanded={faqOpen === index}><span>{question}</span><b>{faqOpen === index ? "−" : "+"}</b></button>{faqOpen === index && <p>{answer}</p>}</article>)}</div></div></section>
 
       <section className="contact section-pad reveal-on-scroll" id="contact">
         <div className="container contact-grid">
           <div><p className="eyebrow eyebrow-light">LET'S MAKE IT HAPPEN</p><h2>Tell us what<br /><em>you're celebrating.</em></h2><p>Share a little about your event and let's start shaping an experience that feels just right.</p><a className="button button-gold" href="https://wa.me/2348053090312?text=Hello%20Jobella%20Events%2C%20I%27d%20like%20to%20make%20an%20event%20enquiry."><Icon name="message" />Enquire on WhatsApp</a></div>
           <div className="contact-details"><div><span><Icon name="phone" />CALL / WHATSAPP</span><a href="tel:+2348053090312">+234 805 309 0312</a></div><div><span><Icon name="mail" />EMAIL</span><a href="mailto:jobellaevents.ng@gmail.com">jobellaevents.ng@gmail.com</a></div><div><span><Icon name="pin" />LOCATION</span><p>Lagos, Nigeria</p></div><div><span><Icon name="instagram" />FOLLOW OUR WORK</span><a href="https://www.instagram.com/jobellaevents/" target="_blank" rel="noreferrer">Instagram <Icon name="instagram" /></a></div></div>
+          <form className="enquiry-form" onSubmit={submitEnquiry}><p className="eyebrow eyebrow-light">EVENT ENQUIRY</p><h3>Let's start with the details.</h3><div className="form-grid"><label>Your name<input name="name" autoComplete="name" required placeholder="Full name" /></label><label>Email address<input name="email" type="email" autoComplete="email" required placeholder="you@example.com" /></label><label>Phone number<input name="phone" type="tel" autoComplete="tel" required placeholder="+234..." /></label><label>What are you celebrating?<select name="eventType" required defaultValue=""><option value="" disabled>Select event type</option><option>Wedding</option><option>Engagement</option><option>Birthday</option><option>Anniversary</option><option>Corporate event</option><option>Bridal shower</option><option>Private celebration</option><option>Other</option></select></label><label>Event date<input name="eventDate" type="date" /></label><label>Venue / location<input name="venue" placeholder="Venue or area" /></label><label>Estimated guests<select name="guests" defaultValue=""><option value="">Select guest count</option><option>Below 50</option><option>50–100</option><option>101–200</option><option>201–500</option><option>Above 500</option><option>Not sure yet</option></select></label><label>Estimated budget<input name="budget" placeholder="e.g. ₦2,000,000" /></label><label className="form-full">Tell us a little more<textarea name="details" rows={4} placeholder="Your ideas, preferred style and what you need help with..." /></label></div><button className="button button-gold" type="submit"><Icon name="message" />Send enquiry via WhatsApp</button><small>Submitting opens WhatsApp with your enquiry details for you to review and send.</small></form>
         </div>
       </section>
 
