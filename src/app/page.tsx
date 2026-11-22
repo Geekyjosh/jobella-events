@@ -180,7 +180,7 @@ export default function Home() {
       </section>
 
       <a className="floating-whatsapp" href="https://wa.me/2348053090312?text=Hello%20Jobella%20Events%2C%20I%27d%20like%20to%20make%20an%20event%20enquiry." target="_blank" rel="noreferrer" aria-label="Chat with Jobella on WhatsApp"><Icon name="message" /></a>
-      <footer className="site-footer"><div className="container footer-inner"><a className="brand brand-footer" href="#"><span className="brand-mark">J<span>B</span></span><span className="brand-name">JOBELLA<small>EVENTS &amp; MORE</small></span></a><p>Thoughtfully planned. Beautifully remembered.</p><span>© Jobella Events &amp; More Ltd. All rights reserved.</span></div></footer>
+      <footer className="site-footer"><div className="container footer-inner"><a className="brand brand-footer" href="#"><span className="brand-mark">J<span>B</span></span><span className="brand-name">JOBELLA<small>EVENTS &amp; MORE</small></span></a><span>© Jobella Events &amp; More Ltd. All rights reserved.</span></div></footer>
     </main>
   );
 }
